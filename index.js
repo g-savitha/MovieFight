@@ -8,15 +8,22 @@ const fetchData = async (searchTerm) => {
   console.log(response.data);
 };
 
-const input = document.querySelector("input");
-let timeoutId;
-const onInput = (event) => {
-  //main logic to get the delayed input
-  if (timeoutId) {
-    clearTimeout(timeoutId);
-  }
-  timeoutId = setTimeout(() => {
-    fetchData(event.target.value);
-  }, 500);
+const debounce = (func, delay = 1000) => {
+  let timeOutId;
+  return (...args) => {
+    if (timeOutId) {
+      clearTimeout(timeOutId);
+    }
+    timeOutId = setTimeout(() => {
+      func.apply(null, args);
+    }, delay);
+  };
 };
-input.addEventListener("input", onInput);
+
+const input = document.querySelector("input");
+
+const onInput = (event) => {
+  fetchData(event.target.value);
+};
+//debounce it only when input changes
+input.addEventListener("input", debounce(onInput, 500));
