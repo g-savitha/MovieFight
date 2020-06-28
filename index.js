@@ -9,8 +9,14 @@ const fetchData = async (searchTerm) => {
 };
 
 const input = document.querySelector("input");
-//this logic makes a request for every keypress -> this is bad
-input.addEventListener("input", (event) => {
-  //capture the input and send it as a search term
-  fetchData(event.target.value);
-});
+let timeoutId;
+const onInput = (event) => {
+  //main logic to get the delayed input
+  if (timeoutId) {
+    clearTimeout(timeoutId);
+  }
+  timeoutId = setTimeout(() => {
+    fetchData(event.target.value);
+  }, 500);
+};
+input.addEventListener("input", onInput);
