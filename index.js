@@ -5,6 +5,10 @@ const fetchData = async (searchTerm) => {
       s: searchTerm,
     },
   });
+  if (response.data.Error) {
+    return [];
+  }
+  // a promise is returned, since the function is async
   return response.data.Search;
 };
 
@@ -12,7 +16,13 @@ const input = document.querySelector("input");
 
 const onInput = async (event) => {
   const movies = await fetchData(event.target.value);
-  console.log(movies);
+  for (let movie of movies) {
+    const div = document.createElement("div");
+    div.innerHTML = `
+    <img src = "${movie.Poster}" />
+    <h1>${movie.Title}</h1>
+    `;
+    document.querySelector("#target").appendChild(div);
+  }
 };
-//debounce it only when input changes
 input.addEventListener("input", debounce(onInput, 500));
