@@ -29,6 +29,11 @@ const resultsWrapper = document.querySelector(".results");
 
 const onInput = async (event) => {
   const movies = await fetchData(event.target.value);
+  //handling empty responses
+  if (!movies.length) {
+    dropdown.classList.remove("is-active");
+    return;
+  }
   //clears data after search, instead of appending to previous list
   resultsWrapper.innerHTML = "";
   dropdown.classList.add("is-active");
@@ -48,10 +53,6 @@ input.addEventListener("input", debounce(onInput, 500));
 //close the dropdown by clicking anywhere on screen
 //other than dropdown itself
 document.addEventListener("click", (event) => {
-  //event.target -> gives access to the current clicked element
-  //if you inspect and select an element .. you get $0 -> which iindicates selection of current element
-  //event.target === $0
-  //try document.contains($0) -> returns truw, coz we have that element selected.
   if (!root.contains(event.target)) {
     dropdown.classList.remove("is-active");
   }
