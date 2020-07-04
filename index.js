@@ -1,28 +1,28 @@
-const fetchData = async (searchTerm) => {
-  const response = await axios.get("http://www.omdbapi.com", {
-    params: {
-      apikey: "a79da565",
-      s: searchTerm,
-    },
-  });
-  if (response.data.Error) {
-    return [];
-  }
-  return response.data.Search;
-};
 createAutoComplete({
   root: document.querySelector(".autocomplete"),
-  renderOption: (movie) => {
+  renderOption(movie) {
     const imgSrc = movie.Poster === "N/A" ? "" : movie.Poster;
     return `
     <img src = "${imgSrc}" />${movie.Title} (${movie.Year})
     `;
   },
-  onOptionSelect: (movie) => {
+  onOptionSelect(movie) {
     onMovieSelect(movie);
   },
-  inputValue: (movie) => {
+  inputValue(movie) {
     return movie.Title;
+  },
+  async fetchData(searchTerm) {
+    const response = await axios.get("http://www.omdbapi.com", {
+      params: {
+        apikey: "a79da565",
+        s: searchTerm,
+      },
+    });
+    if (response.data.Error) {
+      return [];
+    }
+    return response.data.Search;
   },
 });
 //show statisticsof a movie when selected from dropdown
