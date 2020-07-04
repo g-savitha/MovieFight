@@ -18,6 +18,12 @@ createAutoComplete({
     <img src = "${imgSrc}" />${movie.Title} (${movie.Year})
     `;
   },
+  onOptionSelect: (movie) => {
+    onMovieSelect(movie);
+  },
+  inputValue: (movie) => {
+    return movie.Title;
+  },
 });
 //show statisticsof a movie when selected from dropdown
 const onMovieSelect = async (movie) => {
