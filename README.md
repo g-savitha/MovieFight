@@ -14,3 +14,6 @@ Application design patterns Used :
 
 API requests:
 - Axios
+
+Note:
+You need to clone the repo and run locally this app, since omdb api is not secured
